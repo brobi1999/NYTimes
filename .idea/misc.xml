@@ -3,9 +3,12 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/android_projects/autsoft/NYTimes/app/src/main/res/drawable/circular.xml" value="0.2875" />
         <entry key="..\:/android_projects/autsoft/NYTimes/app/src/main/res/layout/activity_main.xml" value="0.4638671875" />
+        <entry key="..\:/android_projects/autsoft/NYTimes/app/src/main/res/layout/circular.xml" value="0.275" />
         <entry key="..\:/android_projects/autsoft/NYTimes/app/src/main/res/layout/fragment_detail.xml" value="0.1359375" />
-        <entry key="..\:/android_projects/autsoft/NYTimes/app/src/main/res/layout/fragment_list.xml" value="0.1142578125" />
+        <entry key="..\:/android_projects/autsoft/NYTimes/app/src/main/res/layout/fragment_list.xml" value="0.359375" />
+        <entry key="..\:/android_projects/autsoft/NYTimes/app/src/main/res/layout/row_article.xml" value="0.5" />
       </map>
     </option>
   </component>

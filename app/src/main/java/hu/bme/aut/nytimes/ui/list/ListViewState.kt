@@ -2,8 +2,5 @@ package hu.bme.aut.nytimes.ui.list
 
 import hu.bme.aut.nytimes.model.ui.Article
 
-sealed class ListViewState
+data class ListViewState(var articles: List<Article>, var isNetworkAvailable: Boolean)
 
-object Loading : ListViewState()
-
-data class ListLoadedFromNetwork(val articles: List<Article>): ListViewState()

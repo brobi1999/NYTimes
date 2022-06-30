@@ -16,7 +16,7 @@ class DetailFragment : RainbowCakeFragment<DetailViewState, DetailViewModel>() {
     //region sallang
 
     override fun provideViewModel() = getViewModelFromFactory()
-    override fun getViewResource() = R.layout.fragment_detail
+    override fun getViewResource() = 0
 
     private var _binding: FragmentDetailBinding? = null
     private val binding get() = _binding!!
@@ -42,12 +42,8 @@ class DetailFragment : RainbowCakeFragment<DetailViewState, DetailViewModel>() {
     }
 
     override fun render(viewState: DetailViewState) {
-        binding.composeView.setContent {
-            when(viewState){
-                is Loading -> {
+        when(viewState){
 
-                }
-            }
         }
     }
 }

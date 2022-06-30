@@ -6,7 +6,6 @@ import javax.inject.Inject
 
 @HiltViewModel
 class DetailViewModel @Inject constructor(
-    private val detailPresenter: DetailPresenter
-) : RainbowCakeViewModel<DetailViewState>(Loading) {
+) : RainbowCakeViewModel<DetailViewState>(Initial) {
 
 }

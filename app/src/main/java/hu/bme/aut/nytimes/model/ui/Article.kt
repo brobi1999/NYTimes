@@ -1,11 +1,17 @@
 package hu.bme.aut.nytimes.model.ui
 
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+
+@Entity(tableName = "articles")
 data class Article(
-    val id: String,
-    val title: String,
-    val byLine: String,
-    val dateString: String,
-    val smallImgUrl: String,
-    val mediumImgUrl: String,
-    val largeImgUrl: String
+    @PrimaryKey val id: String,
+    @ColumnInfo(name = "url") val url: String,
+    @ColumnInfo(name = "title") val title: String,
+    @ColumnInfo(name = "by_line") val byLine: String,
+    @ColumnInfo(name = "date_string") val dateString: String,
+    @ColumnInfo(name = "img_url") val imgUrl: String,
+    @ColumnInfo(name = "period_in_days") var periodInDays: Int? = null
+
 )
