@@ -3,48 +3,57 @@ package hu.bme.aut.nytimes.ui.list
 import co.zsmb.rainbowcake.base.RainbowCakeViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import hu.bme.aut.nytimes.interactor.ArticleInteractor
-import hu.bme.aut.nytimes.util.FinishLoading
+import hu.bme.aut.nytimes.util.FailedToLoad
+import hu.bme.aut.nytimes.util.NetworkLost
 import hu.bme.aut.nytimes.util.Period
-import hu.bme.aut.nytimes.util.StartLoading
 import javax.inject.Inject
 
 @HiltViewModel
 class ListViewModel @Inject constructor(
     private val articleInteractor: ArticleInteractor
-) : RainbowCakeViewModel<ListViewState>(initialState = ListViewState(articles = mutableListOf(), isNetworkAvailable = true)) {
+) : RainbowCakeViewModel<ListViewState>(
+    initialState =
+    ListViewState(
+        articles = mutableListOf(),
+        isLoading = false,
+        isInitial = true,
+        period = Period.LAST_DAY
+    )
+) {
 
-    fun load(period: Period) = execute {
+    fun load() = execute {
+        if(viewState.isInitial)
+            viewState.isInitial = false
         try {
-            var dbArticles = articleInteractor.loadFromDatabase(period)
+            var dbArticles = articleInteractor.loadFromDatabase(viewState.period)
             if(dbArticles.isEmpty()){
-                postEvent(StartLoading)
-                articleInteractor.refreshDatabaseFromNetwork(period)
-                dbArticles = articleInteractor.loadFromDatabase(period)
+                viewState = viewState.copy(isLoading = true)
+                articleInteractor.refreshDatabaseFromNetwork(viewState.period)
+                dbArticles = articleInteractor.loadFromDatabase(viewState.period)
             }
             else{
-                viewState = viewState.copy(articles = dbArticles)
-                postEvent(StartLoading)
-                articleInteractor.refreshDatabaseFromNetwork(period)
-                dbArticles = articleInteractor.loadFromDatabase(period)
+                viewState = viewState.copy(articles = dbArticles, isLoading = true)
+                articleInteractor.refreshDatabaseFromNetwork(viewState.period)
+                dbArticles = articleInteractor.loadFromDatabase(viewState.period)
             }
             viewState = viewState.copy(articles = dbArticles)
         }
         catch (e: Exception){
             e.printStackTrace()
+            postEvent(FailedToLoad)
         }
         finally {
-            postEvent(FinishLoading)
+            viewState = viewState.copy(isLoading = false)
         }
     }
 
-
-    fun networkAvailable() {
-        viewState = viewState.copy(isNetworkAvailable = true)
+    fun setPeriod(period: Period){
+        viewState = viewState.copy(period = period)
     }
 
+
     fun networkLost(){
-        viewState = viewState.copy(isNetworkAvailable = false)
-        //TODO - post event - snackbar
+        postEvent(NetworkLost)
     }
 
 }

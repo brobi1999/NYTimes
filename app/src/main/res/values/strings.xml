@@ -1,4 +1,13 @@
 <resources>
     <string name="app_name">NYTimes</string>
     <string name="ny_times_most_popular">NY Times Most Popular</string>
+    <string name="network_lost">Network lost</string>
+    <string name="failed_to_refresh_articles">Failed to refresh articles</string>
+    <string name="last_day">Last Day</string>
+    <string name="last_week">Last Week</string>
+    <string name="last_month">Last Month</string>
+    <string name="ok">OK</string>
+    <string name="check_article">Check article</string>
+    <string name="failed_to_load_details_press_the_button_to_try_again">Failed to load details. Press the button to try again!</string>
+    <string name="retry">Retry</string>
 </resources>

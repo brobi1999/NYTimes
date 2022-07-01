@@ -13,5 +13,4 @@ data class Article(
     @ColumnInfo(name = "date_string") val dateString: String,
     @ColumnInfo(name = "img_url") val imgUrl: String,
     @ColumnInfo(name = "period_in_days") var periodInDays: Int? = null
-
 )

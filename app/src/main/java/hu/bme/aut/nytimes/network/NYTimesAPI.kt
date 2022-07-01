@@ -4,7 +4,6 @@ import hu.bme.aut.nytimes.model.domain.MostViewedResponse
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path
-import retrofit2.http.Query
 
 interface NYTimesAPI {
 

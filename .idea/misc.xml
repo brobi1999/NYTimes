@@ -6,9 +6,13 @@
         <entry key="..\:/android_projects/autsoft/NYTimes/app/src/main/res/drawable/circular.xml" value="0.2875" />
         <entry key="..\:/android_projects/autsoft/NYTimes/app/src/main/res/layout/activity_main.xml" value="0.4638671875" />
         <entry key="..\:/android_projects/autsoft/NYTimes/app/src/main/res/layout/circular.xml" value="0.275" />
-        <entry key="..\:/android_projects/autsoft/NYTimes/app/src/main/res/layout/fragment_detail.xml" value="0.1359375" />
+        <entry key="..\:/android_projects/autsoft/NYTimes/app/src/main/res/layout/fragment_detail.xml" value="0.33" />
         <entry key="..\:/android_projects/autsoft/NYTimes/app/src/main/res/layout/fragment_list.xml" value="0.359375" />
+        <entry key="..\:/android_projects/autsoft/NYTimes/app/src/main/res/layout/layout_date_with_icon.xml" value="0.67" />
+        <entry key="..\:/android_projects/autsoft/NYTimes/app/src/main/res/layout/layout_detail_error.xml" value="0.33" />
+        <entry key="..\:/android_projects/autsoft/NYTimes/app/src/main/res/layout/layout_detail_loaded.xml" value="0.18802083333333333" />
         <entry key="..\:/android_projects/autsoft/NYTimes/app/src/main/res/layout/row_article.xml" value="0.5" />
+        <entry key="..\:/android_projects/autsoft/NYTimes/app/src/main/res/menu/menu_list.xml" value="0.36666666666666664" />
       </map>
     </option>
   </component>

@@ -47,22 +47,13 @@
         app:layout_constraintHorizontal_bias="0.0"
         tools:text="By Bloody Mary" />
 
-    <TextView
-        android:id="@+id/tvDate"
+    <include
+        android:id="@+id/layout_date"
+        layout="@layout/layout_date_with_icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintEnd_toStartOf="@id/ivNext"
-        app:layout_constraintTop_toBottomOf="@+id/tvByLine"
-        tools:text="1999-02-14" />
-
-    <ImageView
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        android:src="@drawable/ic_baseline_event_24"
-        app:layout_constraintBottom_toBottomOf="@+id/tvDate"
-        app:layout_constraintEnd_toStartOf="@+id/tvDate"
-        app:layout_constraintTop_toTopOf="@+id/tvDate"
-        app:tint="@color/gray" />
+        app:layout_constraintEnd_toStartOf="@+id/ivNext"
+        app:layout_constraintTop_toBottomOf="@+id/tvByLine" />
 
     <ImageView
         android:layout_margin="10dp"

@@ -2,7 +2,6 @@
 <resources>
 
     <style name="Theme.NYTimes" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="android:statusBarColor">@color/purple_700</item>
         <item name="android:textColor">@color/gray</item>
     </style>
 

@@ -1,7 +1,6 @@
 package hu.bme.aut.nytimes.network
 
 import hu.bme.aut.nytimes.model.domain.MostViewedResponse
-import hu.bme.aut.nytimes.util.Period
 import javax.inject.Inject
 
 class NYTimesRepo @Inject constructor() {

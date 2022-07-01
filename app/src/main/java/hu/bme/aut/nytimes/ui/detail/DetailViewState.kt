@@ -1,5 +1,11 @@
 package hu.bme.aut.nytimes.ui.detail
 
-sealed class DetailViewState
+import hu.bme.aut.nytimes.model.ui.Article
 
-object Initial : DetailViewState()
+data class DetailViewState(
+    var article: Article?,
+    var isInitial: Boolean,
+    var isLoading: Boolean,
+    var isError: Boolean,
+    var isNetworkLost: Boolean
+)

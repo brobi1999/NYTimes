@@ -1,9 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/composeView"
+<ViewFlipper xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/viewFlipper"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="horizontal">
+    android:layout_height="match_parent">
 
-</LinearLayout>
+    <!-- 0 -->
+    <ProgressBar
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:layout_gravity="center" />
+
+    <!-- 1 -->
+    <include
+        android:id="@+id/layoutDetailLoaded"
+        layout="@layout/layout_detail_loaded"/>
+
+    <!-- 2 -->
+    <include
+        android:id="@+id/layoutDetailError"
+        layout="@layout/layout_detail_error"/>
+
+</ViewFlipper>
+
+

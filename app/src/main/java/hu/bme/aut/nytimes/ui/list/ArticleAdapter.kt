@@ -16,6 +16,10 @@ class ArticleAdapter : ListAdapter<Article, ArticleAdapter.ArticleViewHolder>(
 
     private var listener: Listener? = null
 
+    fun setListener(newListener: Listener){
+        listener = newListener
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ArticleAdapter.ArticleViewHolder {
         val binding = RowArticleBinding
             .inflate(LayoutInflater.from(parent.context), parent, false)
@@ -32,7 +36,7 @@ class ArticleAdapter : ListAdapter<Article, ArticleAdapter.ArticleViewHolder>(
             .into(holder.binding.ivArticle)
         holder.binding.tvTitle.text = article.title
         holder.binding.tvByLine.text = article.byLine
-        holder.binding.tvDate.text = article.dateString
+        holder.binding.layoutDate.tvDate.text = article.dateString
         holder.binding.root.setOnClickListener {
             listener?.onArticleClicked(article)
         }

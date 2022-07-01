@@ -1,8 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
+    android:id="@+id/relLayout"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/teal_200"
+        android:minHeight="?attr/actionBarSize"
+        app:menu="@menu/menu_list"
+        app:title="@string/ny_times_most_popular"
+        app:titleTextColor="@android:color/white"/>
 
     <ProgressBar
         android:id="@+id/progressBar_cyclic"
@@ -18,7 +30,8 @@
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/swipeRefreshLayout"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_below="@id/toolbar">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/listArticle"

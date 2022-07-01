@@ -2,6 +2,6 @@ package hu.bme.aut.nytimes.util
 
 import co.zsmb.rainbowcake.base.OneShotEvent
 
-object StartLoading : OneShotEvent
+object NetworkLost : OneShotEvent
 
-object FinishLoading : OneShotEvent
+object FailedToLoad: OneShotEvent

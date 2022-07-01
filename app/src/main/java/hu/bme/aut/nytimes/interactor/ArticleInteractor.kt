@@ -30,7 +30,12 @@ class ArticleInteractor @Inject constructor(
 
     suspend fun refreshDatabaseFromNetwork(period: Period) {
         val networkArticles = load(period)
+        articleDao.clearAllFromLastDays(periodToDays(period))
         articleDao.insertAll(networkArticles)
+    }
+
+    suspend fun loadArticle(id: String): Article{
+        return articleDao.getArticleById(id)
     }
 
     private fun convertMostViewedResponseToArticleList(response: MostViewedResponse): List<Article>{

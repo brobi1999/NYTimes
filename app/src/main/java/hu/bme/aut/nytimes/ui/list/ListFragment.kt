@@ -1,12 +1,14 @@
 package hu.bme.aut.nytimes.ui.list
 
+import android.content.Context
+import android.content.DialogInterface
 import android.net.ConnectivityManager
 import android.net.Network
 import android.net.NetworkCapabilities
+import android.net.NetworkRequest
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
+import android.widget.Toast
 import co.zsmb.rainbowcake.base.RainbowCakeFragment
 import co.zsmb.rainbowcake.hilt.getViewModelFromFactory
 import dagger.hilt.android.AndroidEntryPoint
@@ -17,12 +19,16 @@ import hu.bme.aut.nytimes.util.Period
 import androidx.recyclerview.widget.LinearLayoutManager
 import co.zsmb.rainbowcake.base.OneShotEvent
 import co.zsmb.rainbowcake.navigation.navigator
-import hu.bme.aut.nytimes.ui.detail.Initial
-import hu.bme.aut.nytimes.util.FinishLoading
-import hu.bme.aut.nytimes.util.StartLoading
+import com.google.android.material.snackbar.Snackbar
+import hu.bme.aut.nytimes.ui.detail.DetailFragment
+import hu.bme.aut.nytimes.util.FailedToLoad
+import hu.bme.aut.nytimes.util.NetworkCallbackHelper.registerNetworkCallback
+import hu.bme.aut.nytimes.util.NetworkCallbackHelper.unregisterNetworkCallback
+import hu.bme.aut.nytimes.util.NetworkLost
+import kotlin.concurrent.thread
 
 @AndroidEntryPoint
-class ListFragment: RainbowCakeFragment<ListViewState, ListViewModel>() {
+class ListFragment: RainbowCakeFragment<ListViewState, ListViewModel>(), ArticleAdapter.Listener {
 
     //region sallang
 
@@ -48,38 +54,54 @@ class ListFragment: RainbowCakeFragment<ListViewState, ListViewModel>() {
 
     //endregion
 
+    //region network callback
+
     private val networkCallback = object : ConnectivityManager.NetworkCallback() {
-        // network is available for use
-        override fun onAvailable(network: Network) {
-            super.onAvailable(network)
-            viewModel.networkAvailable()
-        }
-
-        // Network capabilities have changed for the network
-        override fun onCapabilitiesChanged(
-            network: Network,
-            networkCapabilities: NetworkCapabilities
-        ) {
-            super.onCapabilitiesChanged(network, networkCapabilities)
-            val unmetered = networkCapabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_NOT_METERED)
-        }
-
-        // lost network connection
         override fun onLost(network: Network) {
             super.onLost(network)
             viewModel.networkLost()
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        registerNetworkCallback(requireContext(), networkCallback)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        unregisterNetworkCallback(requireContext(), networkCallback)
+    }
+
+    //endregion
+
     private var articleAdapter: ArticleAdapter = ArticleAdapter()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.load(Period.LAST_DAY)
         setupRecyclerView()
         binding.swipeRefreshLayout.setOnRefreshListener {
-            viewModel.load(Period.LAST_DAY)
+            viewModel.load()
             binding.swipeRefreshLayout.isRefreshing = false
+        }
+
+        binding.toolbar.setOnMenuItemClickListener {
+            when (it.itemId) {
+                R.id.lastDay -> {
+                    viewModel.setPeriod(Period.LAST_DAY)
+                    viewModel.load()
+                }
+                R.id.lastWeek -> {
+                    viewModel.setPeriod(Period.LAST_7_DAYS)
+                    viewModel.load()
+                }
+                R.id.lastMonth -> {
+                    viewModel.setPeriod(Period.LAST_30_DAYS)
+                    viewModel.load()
+                }
+                else -> {}
+            }
+            true
         }
 
     }
@@ -87,21 +109,37 @@ class ListFragment: RainbowCakeFragment<ListViewState, ListViewModel>() {
     private fun setupRecyclerView() {
         binding.listArticle.adapter = articleAdapter
         binding.listArticle.layoutManager = LinearLayoutManager(this.context)
-
+        articleAdapter.setListener(this)
     }
 
     override fun render(viewState: ListViewState) {
-        articleAdapter.submitList(viewState.articles)
+        if (viewState.isInitial){
+            viewModel.load()
+        }
+        else{
+            articleAdapter.submitList(viewState.articles)
+            binding.progressBarCyclic.visibility = if(viewState.isLoading) View.VISIBLE else View.GONE
+        }
     }
 
     override fun onEvent(event: OneShotEvent) {
         when(event) {
-            is StartLoading ->{
-                binding.progressBarCyclic.visibility = View.VISIBLE
+            is NetworkLost ->{
+                Snackbar.make(
+                    binding.root,
+                    getString(R.string.network_lost),
+                    Snackbar.LENGTH_INDEFINITE
+                ).setAction(getString(R.string.ok)) {
+                }.show()
+
             }
-            is FinishLoading ->{
-                binding.progressBarCyclic.visibility = View.GONE
+            is FailedToLoad ->{
+                Toast.makeText(requireContext(), getString(R.string.failed_to_refresh_articles), Toast.LENGTH_SHORT).show()
             }
         }
+    }
+
+    override fun onArticleClicked(article: Article) {
+        navigator?.add(DetailFragment.newInstance(article.id))
     }
 }
